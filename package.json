@@ -1,5 +1,6 @@
 {
   "name": "age-calculator",
+  "homepage": "https://Renan-do-vale.github.io/age-calculator/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
