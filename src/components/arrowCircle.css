@@ -1,0 +1,16 @@
+.buttonArrow{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--Purple);
+}
+
+
+.buttonArrow:hover {
+    background-color: hsl(259, 61%, 40%);
+}
+
+.buttonArrow:active {
+    background-color: var(--Off-Black);
+}

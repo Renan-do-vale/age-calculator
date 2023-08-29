@@ -1,0 +1,31 @@
+.initialName {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--Smokey-Grey)
+}
+
+.inputBox {
+    width: 150px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 1.6em;
+    padding-left: 20px;
+}
+
+.inputBox:focus {
+    border-color: var(--Purple);
+    outline: none;
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.errorText {
+    font-size: 0.8em;
+    color: hsl(0, 100%, 67%);
+}

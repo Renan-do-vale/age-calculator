@@ -1,8 +1,9 @@
 import './App.css';
+import Main from './components/main.jsx'
 
 function App() {
   return (
-    <h1>In progress</h1>
+    <Main/>
   );
 }
 
