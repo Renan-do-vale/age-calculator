@@ -26,7 +26,7 @@ function Main(props) {
     const [ErrorMonth, setErrorMonth ] = useState(false)
     const [ErrorYear, setErrorYear ] = useState(false)
 
-    const [erroColor, setErrorColor ] = useState('--')
+    const [erroColor, setErrorColor ] = useState('')
 
     function dayCalc() {
         // fix erro late
@@ -61,6 +61,7 @@ function Main(props) {
             setErrorColor('hsl(0, 100%, 67%)')
         }else {
             setErrorDay(false)
+            setErrorColor('')
             setDayLabel(dayCalc())
 
 
@@ -71,6 +72,7 @@ function Main(props) {
             setErrorColor('hsl(0, 100%, 67%)')
         }else {
             setErrorMonth(false)
+            setErrorColor('')
             setMonthLabel(monthCalc())
         }
 
@@ -79,6 +81,7 @@ function Main(props) {
             setErrorColor('hsl(0, 100%, 67%)')
         }else {
             setErrorYear(false)
+            setErrorColor('')
             setYearLabel(ageCalc())
         }
 
