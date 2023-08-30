@@ -2,7 +2,6 @@ import './resultText.css'
 
 function Result(props) {
 
-    
 
     return (
         <div className='containResult'>
