@@ -10,7 +10,7 @@ function Main(props) {
 
     let currentDate = new Date();
     let currentYear = currentDate.getFullYear();
-    let currentMonth = 1 + currentDate.getMonth();
+    let currentMonth = currentDate.getMonth() + 1;
     let currentDay = currentDate.getDate();
 
     const [day, setDay] = useState('')
@@ -34,27 +34,39 @@ function Main(props) {
         }
     }
 
-    function validateDay() {
-
+    function validateDate() {
+        console.log(currentYear+' '+year)
+        console.log(month+' '+currentMonth)
         if (day < 1 || day > 31 || day === '') {
-            return false
+            setErrorDay(true)
+        } else if (day === '31' && (month === '4' || month === '6' || month === '9' || month === '11')) {
+            setErrorDay(true)
+        } else if (month === '2' && day > 29) {
+            setErrorDay(true)
+        } else if (month === '2' && day === '29' && bissexto() === false) {
+            setErrorDay(true)
+        } else {
+            setErrorDay(false)
         }
-        if (day === '31' && (month === '4' || month === '6' || month === '9' || month === '11')) {
-            return false
+        if (month < 1 || month > 12 || month === '' || (month > currentMonth && year === currentYear )) {
+            setErrorMonth(true)
+        } else {
+            setErrorMonth(false)
         }
-        if (month === '2' && day > 29) {
+        if (year < 1 || year > currentYear || year === '') {
+            setErrorYear(true)
             return false
-        }
-        if (month === '2' && day === '29' && bissexto(year) === false) {
-            return false
+        } else {
+            setErrorYear(false)
         }
         return true
     }
 
     function daysOfMonth(m) {
-        if (m === '1' || m === '3' || m === '5' || m === '7' || m === 8 || m === '10' || m === '12') {
+        m = parseInt(m)
+        if (m === 1 || m === 3 || m === 5 || m === 7 || m === 8 || m === 10 || m === 12) {
             return 31
-        } else if (m === '4' || m === '6' || m === '9' || m === '11') {
+        } else if (m === 4 || m === 6 || m === 9 || m === 11) {
             return 30
         } else if (bissexto() === true) {
             return 29
@@ -75,26 +87,25 @@ function Main(props) {
             return
         }
         while (copyMonth < currentMonth - 1 || copyYear < currentYear) {
-            if (copyMonth === 12) {
-                copyYear += 1
-                copyMonth = 0
-            }
             copyMonth += 1
             amountMonth += 1
             if (amountMonth === 12) {
                 amountMonth = 0
                 amountYear += 1
             }
+            if (copyMonth > 12) {
+                copyYear += 1
+                copyMonth = 1
+            }
         }
         if (copyDay === currentDay) {
             amountMonth += 1
             amountDay = 0
-        }
-        if (copyDay < currentDay) {
+        } else if (copyDay < currentDay) {
             amountMonth += 1
             amountDay = currentDay - copyDay
         } else {
-            amountDay = daysOfMonth(currentMonth - 1) + currentDay - copyDay
+            amountDay = daysOfMonth(currentMonth) + currentDay - copyDay
         }
         setDayLabel(amountDay)
         setMonthLabel(amountMonth)
@@ -102,24 +113,7 @@ function Main(props) {
     }
 
     function submit() {
-
-        // passar a validação inteira para uma unica função
-        if (validateDay() === false) {
-            setErrorDay(true)
-        } else {
-            setErrorDay(false)
-        }
-        if (month < 1 || month > 12 || month === '') {
-            setErrorMonth(true)
-        } else {
-            setErrorMonth(false)
-        }
-        if (year < 1 || year > currentYear || year === '') {
-            setErrorYear(true)
-        } else {
-            setErrorYear(false)
-        }
-        if(ErrorDay === false && ErrorMonth === false && ErrorYear === false) {
+        if (validateDate() === true) {
             calcAge()
         }
     }
