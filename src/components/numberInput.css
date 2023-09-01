@@ -29,3 +29,12 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 0.8em;
     color: hsl(0, 100%, 67%);
 }
+
+.errorTextRed {
+    color: hsl(0, 100%, 67%);
+}
+
+.inputError {
+    border-color: hsl(0, 100%, 67%);
+    outline: none;
+}

@@ -8,101 +8,138 @@ import { useState } from 'react'
 
 function Main(props) {
 
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1;
-    const currentDay = currentDate.getDate();
+    let currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    let currentMonth = 1 + currentDate.getMonth();
+    let currentDay = currentDate.getDate();
 
-    const [day, setDay ] = useState('')
-    const [month, setMonth ] = useState('')
-    const [year, setYear ] = useState('')
-
-
-    const [dayLabel, setDayLabel ] = useState('--')
-    const [monthLabel, setMonthLabel ] = useState('--')
-    const [yearLabel, setYearLabel ] = useState('--')
-    
-    const [ErroDay, setErrorDay ] = useState(false)
-    const [ErrorMonth, setErrorMonth ] = useState(false)
-    const [ErrorYear, setErrorYear ] = useState(false)
-
-    const [erroColor, setErrorColor ] = useState('')
-
-    function dayCalc() {
-        // fix erro late
-        let calc = currentDay - day
-        return calc
-    }
-
-    function monthCalc() {
-        if(currentMonth > month) {
-            return currentMonth - month
-        }else {
-            let result =  (currentMonth - month) + parseInt(month)
-            return result
-        }
+    const [day, setDay] = useState('')
+    const [month, setMonth] = useState('')
+    const [year, setYear] = useState('')
 
 
-    }
+    const [dayLabel, setDayLabel] = useState('--')
+    const [monthLabel, setMonthLabel] = useState('--')
+    const [yearLabel, setYearLabel] = useState('--')
 
-    function ageCalc() {
-        if(currentMonth > month) {
-            return currentYear - year
+    const [ErrorDay, setErrorDay] = useState(false)
+    const [ErrorMonth, setErrorMonth] = useState(false)
+    const [ErrorYear, setErrorYear] = useState(false)
+
+    function bissexto() {
+        if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+            return true
         } else {
-            return (currentYear - year) -1
+            return false
         }
     }
 
+    function validateDay() {
+
+        if (day < 1 || day > 31 || day === '') {
+            return false
+        }
+        if (day === '31' && (month === '4' || month === '6' || month === '9' || month === '11')) {
+            return false
+        }
+        if (month === '2' && day > 29) {
+            return false
+        }
+        if (month === '2' && day === '29' && bissexto(year) === false) {
+            return false
+        }
+        return true
+    }
+
+    function daysOfMonth(m) {
+        if (m === '1' || m === '3' || m === '5' || m === '7' || m === 8 || m === '10' || m === '12') {
+            return 31
+        } else if (m === '4' || m === '6' || m === '9' || m === '11') {
+            return 30
+        } else if (bissexto() === true) {
+            return 29
+        } else {
+            return 28
+        }
+    }
+
+    function calcAge() {
+        let amountDay = 0
+        let amountMonth = 0
+        let amountYear = 0
+
+        let copyDay = parseInt(day)
+        let copyMonth = parseInt(month)
+        let copyYear = parseInt(year)
+        if (copyMonth > 12) {
+            return
+        }
+        while (copyMonth < currentMonth - 1 || copyYear < currentYear) {
+            if (copyMonth === 12) {
+                copyYear += 1
+                copyMonth = 0
+            }
+            copyMonth += 1
+            amountMonth += 1
+            if (amountMonth === 12) {
+                amountMonth = 0
+                amountYear += 1
+            }
+        }
+        if (copyDay === currentDay) {
+            amountMonth += 1
+            amountDay = 0
+        }
+        if (copyDay < currentDay) {
+            amountMonth += 1
+            amountDay = currentDay - copyDay
+        } else {
+            amountDay = daysOfMonth(currentMonth - 1) + currentDay - copyDay
+        }
+        setDayLabel(amountDay)
+        setMonthLabel(amountMonth)
+        setYearLabel(amountYear)
+    }
 
     function submit() {
 
-        if(day > 31 || day <= 0 || day === '--') {
+        // passar a validação inteira para uma unica função
+        if (validateDay() === false) {
             setErrorDay(true)
-            setErrorColor('hsl(0, 100%, 67%)')
-        }else {
+        } else {
             setErrorDay(false)
-            setErrorColor('')
-            setDayLabel(dayCalc())
-
-
         }
-
-        if(month > 12 || month <= 0 || month === '--') {
+        if (month < 1 || month > 12 || month === '') {
             setErrorMonth(true)
-            setErrorColor('hsl(0, 100%, 67%)')
-        }else {
+        } else {
             setErrorMonth(false)
-            setErrorColor('')
-            setMonthLabel(monthCalc())
         }
-
-        if(year > 2023 || year <= 0 || year === '--') {
+        if (year < 1 || year > currentYear || year === '') {
             setErrorYear(true)
-            setErrorColor('hsl(0, 100%, 67%)')
-        }else {
+        } else {
             setErrorYear(false)
-            setErrorColor('')
-            setYearLabel(ageCalc())
         }
-
+        if(ErrorDay === false && ErrorMonth === false && ErrorYear === false) {
+            calcAge()
+        }
     }
 
 
 
     return <div className="main">
         <div className="header">
-            <InputNumber name={'DAY'} placeName={"DD"} error={'Must be a valid day'} erro={ErroDay}  data={day} att={setDay} errorColor={erroColor}/>
-            <InputNumber name={'MONTH'} placeName={"MM"} error={'Must be a valid month'} erro={ErrorMonth} data={month} att={setMonth} errorColor={erroColor}/>
-            <InputNumber name={'YEAR'} placeName={"YYYY"} error={'Must be in the past'} erro={ErrorYear} data={year} att={setYear} errorColor={erroColor}/>
+            <InputNumber name={'DAY'} placeName={"DD"} error={'Must be a valid day'} erro={ErrorDay} data={day} att={setDay} />
+            <InputNumber name={'MONTH'} placeName={"MM"} error={'Must be a valid month'} erro={ErrorMonth} data={month} att={setMonth} />
+            <InputNumber name={'YEAR'} placeName={"YYYY"} error={'Must be in the past'} erro={ErrorYear} data={year} att={setYear} />
         </div>
         <div className='containerArrow'>
             <hr />
-            <Arrow onClick={submit}/>
+            <Arrow onClick={submit} />
         </div>
         <article>
-            <Result text={'year'} result={yearLabel}/>
-            <Result text={'months'} result={monthLabel}/>
-            <Result text={'days'} result={dayLabel}/>
+            <Result text={'year'} result={yearLabel} />
+            <Result text={'months'} result={monthLabel} />
+            <Result text={'days'} result={dayLabel} />
         </article>
     </div>
 }
