@@ -131,7 +131,7 @@ function Main(props) {
             <Arrow onClick={submit} />
         </div>
         <article>
-            <Result text={'year'} result={yearLabel} />
+            <Result text={'years'} result={yearLabel} />
             <Result text={'months'} result={monthLabel} />
             <Result text={'days'} result={dayLabel} />
         </article>
