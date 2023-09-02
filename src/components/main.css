@@ -31,3 +31,33 @@ article {
     justify-content: center;
     padding-left: 40px;
 }
+
+@media(max-width: 768px) {
+    .main {
+        width: 360px;
+    }
+
+    .header {
+        height: 25%;
+        align-items: center;
+        gap: 10px;
+        padding-left: 20px;
+        padding-top: 0px;
+    }
+
+
+    .containerArrow {
+        height: 50px;
+    }
+
+    hr {
+        margin-left: 20px;
+        width: 30%;
+    }
+    
+    article {
+        margin-top: 2rem;
+        padding-left: 20px;
+    }
+
+}

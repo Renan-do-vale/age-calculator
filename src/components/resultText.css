@@ -11,3 +11,11 @@
 .containResult > p:nth-child(1) {
     color: var(--Purple);
 }
+
+@media(max-width: 768px) {
+    .containResult > p {
+        font-size: 3.8em;
+        font-weight: 800;
+    }
+
+}

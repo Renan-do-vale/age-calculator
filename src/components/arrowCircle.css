@@ -4,6 +4,7 @@
     border-radius: 50%;
     border: none;
     background-color: var(--Purple);
+    position: relative;
 }
 
 
@@ -13,4 +14,21 @@
 
 .buttonArrow:active {
     background-color: var(--Off-Black);
+}
+
+@media(max-width: 768px) {
+    .buttonArrow{
+        width: 80px;
+        height: 80px;
+    }
+
+    .buttonArrow::after {
+        content: "";
+        display: block;
+        border-top: 1px solid hsl(0, 1%, 66%);
+        width: 130px;
+        position: absolute;
+        top: 49%;
+        right: -163%;
+    }
 }
